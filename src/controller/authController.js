@@ -405,18 +405,14 @@ const incrementImpression = async (req, res) => {
    
     try {
       const { questionID } = req.body;
-  
-      // Find the question by questionID
+
       const question = await Question.findOne({ questionID });
   
       if (!question) {
         return res.status(404).json({ message: 'Question not found' });
       }
-  
-      // Increment the impressions count
       question.NoOfImpression += 1;
-  
-      // Save the updated question
+      
       await question.save();
   
       return res.status(200).json({ message: 'Impression count incremented successfully', question });
@@ -451,7 +447,6 @@ const checkIfOptionIsCorrect = async (req, res) => {
   
 
   
-      // Check if the option is correct
       if (selectedOption.isCorrect) {
         return res.status(200).json({ message: 'Correct answer!'});
       } else {
@@ -462,6 +457,38 @@ const checkIfOptionIsCorrect = async (req, res) => {
       res.status(500).json({ message: 'An error occurred while checking the option.' });
     }
   };
+
+  const getQuizDetails = async (req, res) => {
+    const { quizID } = req.query;
+
+    try {
+        const quiz = await QuizModel.findOne({ quizID });
+
+        if (!quiz) {
+            return res.status(404).json({ message: 'No quiz found' });
+        }
+
+        const questions = await Question.find({ quizID: quiz.quizID });
+
+        const questionsWithOptions = await Promise.all(
+            questions.map(async (question) => {
+                const options = await Option.find({ questionID: question.questionID });
+                return { ...question.toObject(), options };
+            })
+        );
+
+        const quizWithDetails = { ...quiz.toObject(), questions: questionsWithOptions };
+
+        res.status(200).json({
+            message: "Success",
+            data: quizWithDetails,
+        });
+
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
   
 
 module.exports = {
@@ -477,5 +504,6 @@ module.exports = {
   deleteQuiz,
   incrementImpression,
   checkIfOptionIsCorrect,
-  incrementquizImpression
+  incrementquizImpression,
+  getQuizDetails
 };
