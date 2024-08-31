@@ -434,8 +434,6 @@ const checkIfOptionIsCorrect = async (req, res) => {
       if (!selectedOption) {
         return res.status(404).json({ message: 'Option not found.' });
       }
-      question.correctlyAnswered=0;
-      question.wronglyAnswered  =0;
       console.log('Before update:', question.correctlyAnswered, question.wronglyAnswered);
       if (selectedOption.isCorrect) {
         question.correctlyAnswered += 1;
