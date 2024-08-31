@@ -383,24 +383,7 @@ const deleteQuiz = async (req, res) => {
         res.status(500).json({ message: 'An error occurred while deleting the quiz.' });
     }
 };
-const incrementquizImpression= async (req,res) => {
-    try{
-        const { quizID } = req.body;
-        const quiz = await QuizModel.findOne({ quizID });
-    if (!quiz) {
-      return res.status(404).json({ message: 'Quiz not found.' });
-    }
 
-    quiz.NoOfImpression += 1;
-    await quiz.save();
-
-    res.status(200).json({ message: 'Quiz impression incremented successfully.', data: quiz });
-
-    } catch (error) {
-      console.error('Error incrementing impression count:', error);
-      return res.status(500).json({ message: 'Internal server error' });
-    }
-}
 const incrementImpression = async (req, res) => {
    
     try {
@@ -533,7 +516,6 @@ module.exports = {
   deleteQuiz,
   incrementImpression,
   checkIfOptionIsCorrect,
-  incrementquizImpression,
   getQuizDetails,
   updateWQuizDetails
 };

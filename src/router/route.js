@@ -15,7 +15,6 @@ const {
   deleteQuiz,
   incrementImpression,
   checkIfOptionIsCorrect,
-  incrementquizImpression,
   getQuizDetails,
   updateWQuizDetails
 } = require("../controller/authController.js");
@@ -36,7 +35,7 @@ authRouter.post('/updatequiz',updateWQuizDetails);
 authRouter.delete('/deleteQuiz', deleteQuiz);
 authRouter.post('/checkOption',checkIfOptionIsCorrect);
 authRouter.post('/incrementImpression',incrementImpression);
-authRouter.post('/incrementquizImpression',incrementquizImpression);
+
 
 //export default authRouter;
 module.exports=authRouter
