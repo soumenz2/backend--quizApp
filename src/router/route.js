@@ -16,7 +16,8 @@ const {
   incrementImpression,
   checkIfOptionIsCorrect,
   incrementquizImpression,
-  getQuizDetails
+  getQuizDetails,
+  updateWQuizDetails
 } = require("../controller/authController.js");
 const {body}=require('express-validator')
 const authRouter=Router();
@@ -31,6 +32,7 @@ authRouter.get('/getquestion',getQuestionsByQuizID);
 authRouter.get('/getquestionfoUser',getQuestionsforUser);
 authRouter.get('/getQuizWithDetails',getQuizWithDetails);
 authRouter.get('/getQuizDetails',getQuizDetails);
+authRouter.post('/updatequiz',updateWQuizDetails);
 authRouter.delete('/deleteQuiz', deleteQuiz);
 authRouter.post('/checkOption',checkIfOptionIsCorrect);
 authRouter.post('/incrementImpression',incrementImpression);

@@ -489,7 +489,38 @@ const checkIfOptionIsCorrect = async (req, res) => {
     }
 };
 
-  
+ const updateWQuizDetails=async (req,res)=>{
+   const  {quizData}=req.body;
+   try {
+    for (const question of quizData.questions) {
+        let questionData = await Question.findOne({ questionID: question.questionID });
+
+        if (questionData) {
+            questionData.questionName = question.questionName;
+            questionData.timer = question.timer;
+            // Iterate through options and update each one
+            for (const option of question.options) {
+                let optionData = await Option.findOne({ optionID: option.optionID });
+
+                if (optionData) {
+                    optionData.text = option.text;
+                    optionData.imageURL = option.imageURL;
+                    optionData.isCorrect = option.isCorrect;
+                    await optionData.save();
+                }
+            }
+
+            await questionData.save();
+        }
+    }
+
+    res.status(200).json({ message: 'Quiz details updated successfully.' });
+} catch (error) {
+    console.error('Error updating quiz details:', error);
+    res.status(500).json({ message: 'Failed to update quiz details.' });
+}
+};
+   
 
 module.exports = {
   signup,
@@ -505,5 +536,6 @@ module.exports = {
   incrementImpression,
   checkIfOptionIsCorrect,
   incrementquizImpression,
-  getQuizDetails
+  getQuizDetails,
+  updateWQuizDetails
 };
