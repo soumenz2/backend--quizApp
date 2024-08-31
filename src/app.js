@@ -15,6 +15,11 @@ app.use(bodyparser.urlencoded({
     methods: 'GET,POST,PUT,DELETE',
     credentials: true
   }));
+  app.use(cors({
+    origin: 'https://quiz-app-chi-seven-28.vercel.app/',
+    methods: 'GET,POST,PUT,DELETE',
+    credentials: true
+  }));
   app.use('/api',authRouter)
 
   module.exports=app
